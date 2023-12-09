@@ -2,10 +2,22 @@
 
 public class Day2Solver
 {
-    public bool IsGamePossible(string samples, int maxRed, int maxGreen, int maxBlue)
+    public bool IsGamePossible(
+        string samples,
+        int maxRed,
+        int maxGreen,
+        int maxBlue,
+        out int minRed,
+        out int minGreen,
+        out int minBlue
+    )
     {
         var samplesList = samples.Split(";");
 
+        minRed = 0;
+        minGreen = 0;
+        minBlue = 0;
+        
         foreach (var sample in samplesList)
         {
             var redCount = 0;
@@ -31,6 +43,19 @@ public class Day2Solver
                     blueCount += count;
                 }
 
+                if (redCount > minRed)
+                {
+                    minRed = redCount;
+                }
+                if (greenCount > minGreen)
+                {
+                    minGreen = greenCount;
+                }
+                if (blueCount > minBlue)
+                {
+                    minBlue = blueCount;
+                }
+
                 if (redCount > maxRed || greenCount > maxGreen || blueCount > maxBlue)
                 {
                     return false;
@@ -49,7 +74,7 @@ public class Day2Solver
         {
             var gameAndData = line.Split(":");
             var samples = gameAndData[1].Trim();
-            if (!IsGamePossible(samples, maxRed, maxGreen, maxBlue)) continue;
+            if (!IsGamePossible(samples, maxRed, maxGreen, maxBlue, out _, out _, out _)) continue;
             
             var game = gameAndData[0];
             var gameAndId = game.Split(" ");
@@ -58,5 +83,29 @@ public class Day2Solver
         }
 
         return sum;
+    }
+
+    public int Power(string input)
+    {
+        var power = 0;
+        var lines = input.Split("\n");
+        foreach (var line in lines)
+        {
+            var gameAndData = line.Split(":");
+            var samples = gameAndData[1].Trim();
+            if (!IsGamePossible(
+                    samples,
+                    int.MaxValue,
+                    int.MaxValue,
+                    int.MaxValue,
+                    out var minRed,
+                    out var minGreen,
+                    out var minBlue
+                )) continue;
+
+            power += Math.Max(1, minRed) * Math.Max(1, minGreen) * Math.Max(1, minBlue);
+        }
+
+        return power;
     }
 }

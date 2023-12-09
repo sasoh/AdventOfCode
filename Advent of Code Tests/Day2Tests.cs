@@ -18,13 +18,13 @@ public class Day2Tests
     {
         var sut = new Day2Solver();
 
-        var result = sut.IsGamePossible(input, MaxRed, MaxGreen, MaxBlue);
+        var result = sut.IsGamePossible(input, MaxRed, MaxGreen, MaxBlue, out _, out _, out _);
 
         Assert.That(result, Is.EqualTo(expected));
     }
 
     [Test]
-    public void Day2Solve_GivenString_ShouldReturnExpectedSum()
+    public void SumPossibleGameIds_GivenString_ShouldReturnExpectedSum()
     {
         const string input = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green\nGame 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue\nGame 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red\nGame 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red\nGame 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
         const int expectedSum = 8;
@@ -33,5 +33,19 @@ public class Day2Tests
         var result = sut.SumPossibleGameIds(input, MaxRed, MaxGreen, MaxBlue);
 
         Assert.That(result, Is.EqualTo(expectedSum));
+    }
+    
+    [TestCase("Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green", 48)]
+    [TestCase("Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue", 12)]
+    [TestCase("Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red", 1560)]
+    [TestCase("Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red", 630)]
+    [TestCase("Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green", 36)]
+    public void Power_GivenString_ShouldReturnExpectedValue(string input, int expected)
+    {
+        var sut = new Day2Solver();
+
+        var result = sut.Power(input);
+
+        Assert.That(result, Is.EqualTo(expected));
     }
 }

@@ -2,6 +2,6 @@
 
 var day2Solver = new Day2Solver();
 
-var result = day2Solver.SumPossibleGameIds(PuzzleData.Day2Data, 12, 13, 14);
+var result = day2Solver.Power(PuzzleData.Day2Data);
 
 Console.WriteLine($"Day2Solver result = {result}");
