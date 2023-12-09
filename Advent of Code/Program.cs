@@ -1,7 +1,7 @@
 ﻿using Advent_of_Code;
 
-var day1Solver = new Day1Solver();
+var day2Solver = new Day2Solver();
 
-var result = day1Solver.Solve(PuzzleData.Day1Data);
+var result = day2Solver.SumPossibleGameIds(PuzzleData.Day2Data, 12, 13, 14);
 
-Console.WriteLine($"Day1Solver result = {result}");
+Console.WriteLine($"Day2Solver result = {result}");
