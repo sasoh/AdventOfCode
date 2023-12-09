@@ -2,6 +2,6 @@
 
 var day1Solver = new Day1Solver();
 
-var result = day1Solver.Solve(Day1Data.InputString);
+var result = day1Solver.Solve(PuzzleData.Day1Data);
 
 Console.WriteLine($"Day1Solver result = {result}");
