@@ -30,11 +30,29 @@ public class Day3Tests
             70
         )
     ]
-    public void FindSumOfParts_GivenInput_ShouldProduceExpectedResult(string input, int expected)
+    public void FindPartSum_GivenInput_ShouldProduceExpectedResult(string input, int expected)
     {
-        var sut = new Day3Solver();
-
         var partSum = Day3Solver.FindPartSum(input);
+
+        Assert.That(partSum, Is.EqualTo(expected));
+    }
+    
+    [TestCase("467..114.." +
+              "\n...*......" +
+              "\n..35..633." +
+              "\n......#..." +
+              "\n617*......" +
+              "\n.....+.58." +
+              "\n..592....." +
+              "\n......755." +
+              "\n...$.*...." +
+              "\n.664.598..",
+            467835
+        )
+    ]
+    public void FindGearRatioSum_GivenInput_ShouldProduceExpectedResult(string input, int expected)
+    {
+        var partSum = Day3Solver.FindGearRatioSum(input);
 
         Assert.That(partSum, Is.EqualTo(expected));
     }

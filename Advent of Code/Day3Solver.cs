@@ -1,21 +1,13 @@
 ﻿namespace Advent_of_Code;
 
-public class Day3Solver
+public static class Day3Solver
 {
     public static int FindPartSum(string input)
     {
-        // Blueprint:
-        // 1. Get data into an array
-        // 2. Iterate through array
-        // 3. If a character is symbol, get adjacent numbers & store them in a hashmap
-        // 4. Sum parts in hashmap.
-        
-        // 1. Get data into an array
         var rows = input.Split("\n");
         var schematicArray = new string[rows.Length, rows[0].Length];
         CopyRowsToArray(rows, schematicArray);
 
-        // 2. Iterate through array
         var parts = new List<int>();
         for (var row = 0; row < rows.Length; row++)
         {
@@ -24,16 +16,66 @@ public class Day3Solver
             {
                 var currentCharacter = currentRow[column];
                 if (char.IsDigit(currentCharacter) || char.IsLetter(currentCharacter) || currentCharacter == '.') continue;
-                // Console.WriteLine($"detected symbol at array[{row}, {column}] = {currentCharacter}");
-
-                // 3. If a character is a symbol, get adjacent numbers & store them in a hashmap
                 var adjacentPartsSum = GetAdjacentPartsSum(schematicArray, row, column);
                 parts.Add(adjacentPartsSum);
             }
         }
         
-        // 4. Sum parts in hashmap.
         return parts.Sum();
+    }
+
+    public static int FindGearRatioSum(string input)
+    {        
+        var rows = input.Split("\n");
+        var schematicArray = new string[rows.Length, rows[0].Length];
+        CopyRowsToArray(rows, schematicArray);
+        
+        var gearRatios = new List<int>();
+        for (var row = 0; row < rows.Length; row++)
+        {
+            var currentRow = rows[row];
+            for (var column = 0; column < currentRow.Length; column++)
+            {
+                var currentCharacter = currentRow[column];
+                if (char.IsDigit(currentCharacter) || char.IsLetter(currentCharacter) || currentCharacter == '.') continue;
+                gearRatios.Add(GetGearRatio(schematicArray, row, column));
+            }
+        }
+        
+        return gearRatios.Sum();
+    }
+
+    private static int GetGearRatio(string[,] array, int row, int column)
+    {
+        var neighbourCoordinateOffset = new[]
+        {
+            new []{-1, -1},
+            new []{0, -1},
+            new []{1, -1},
+            new []{-1, 0},
+            new []{1, 0},
+            new []{-1, 1},
+            new []{0, 1},
+            new []{1, 1},
+        };
+        
+        // Get unique number ranges.
+        var rangesWithRows = new HashSet<(Range, int)>();
+        foreach (var coordinateOffset in neighbourCoordinateOffset)
+        {
+            var adjacentRow = row + coordinateOffset[0];
+            var adjacentColumn = column + coordinateOffset[1];
+
+            var adjacentCharacter = array[adjacentRow, adjacentColumn];
+            if (!char.IsDigit(adjacentCharacter[0])) continue;
+            
+            var numberRange = NumberRangeFromDigit(array, adjacentRow, adjacentColumn);
+            var rangeWithRow = (Range: numberRange, Row: adjacentRow);
+            rangesWithRows.Add(rangeWithRow);
+        }
+
+        if (rangesWithRows.Count != 2 || array[row, column][0] != '*') return 0;
+        return rangesWithRows.Select(rangeWithRow => NumberFromRange(rangeWithRow.Item1, array, rangeWithRow.Item2)).Aggregate(1, (current, number) => current * number);
     }
 
     private static int GetAdjacentPartsSum(string[,] array, int row, int column)
