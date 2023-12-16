@@ -1,7 +1,10 @@
-﻿using Advent_of_Code;
+﻿using System.Diagnostics;
+using Advent_of_Code;
 
-var day2Solver = new Day2Solver();
+var stopwatch = Stopwatch.StartNew();
 
-var result = day2Solver.Power(PuzzleData.Day2Data);
+var result = Day3Solver.FindPartSum(PuzzleData.Day3Data);
 
-Console.WriteLine($"Day2Solver result = {result}");
+stopwatch.Stop();
+Console.WriteLine($"Result = {result}");
+Console.WriteLine($"Calculation took {stopwatch.ElapsedMilliseconds} ms");
